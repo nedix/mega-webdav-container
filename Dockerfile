@@ -1,7 +1,7 @@
 ARG ALPINE_VERSION=3.20
 ARG CRYPTOPP_VERSION=8_9_0
-ARG MEGA_CMD_VERSION=1.6.3
-ARG MEGA_SDK_VERSION=4.17.1d
+ARG MEGA_CMD_VERSION=1.7.0
+ARG MEGA_SDK_VERSION=4.31.0c
 ARG MITMPROXY_VERSION=10.4.2
 ARG PYTHON_VERSION=3.12
 
@@ -92,6 +92,7 @@ RUN apk add \
         mitmproxy=="$MITMPROXY_VERSION"
 
 RUN apk add \
+    	icu-libs \
         c-ares \
         crypto++ \
         freeimage \
