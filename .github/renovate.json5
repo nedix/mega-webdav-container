@@ -1,0 +1,53 @@
+{
+  extends: [
+    "https://raw.githubusercontent.com/nedix/actions/main/renovate.json5",
+  ],
+  customManagers: [
+    {
+      depNameTemplate: "Alpine",
+      fileMatch: ["^Dockerfile$"],
+      matchStrings: ["ARG ALPINE_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "docker",
+      packageNameTemplate: "alpine",
+    },
+    {
+      depNameTemplate: "Crypto++",
+      fileMatch: ["^Dockerfile$"],
+      matchStrings: ["ARG CRYPTOPP_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "github-releases",
+      packageNameTemplate: "weidai11/cryptopp",
+    },
+    {
+      depNameTemplate: "MEGAcmd",
+      fileMatch: ["^Dockerfile$"],
+      matchStrings: ["ARG MEGA_CMD_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "github-releases",
+      packageNameTemplate: "meganz/MEGAcmd"
+    },
+    {
+      depNameTemplate: "MEGA SDK",
+      fileMatch: ["^Dockerfile$"],
+      matchStrings: ["ARG MEGA_SDK_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "github-releases",
+      packageNameTemplate: "meganz/sdk"
+    },
+  ],
+  packageRules: [
+    {
+      description: "Custom versioning for Crypto++",
+      matchPackageNames: ["weidai11/cryptopp"],
+      extractVersion: "^CRYPTOPP_(?<version>.*)$",
+      versioning: "regex:^(?<major>\\d+)_(?<minor>\\d+)_(?<patch>\\d+)$",
+    },
+    {
+      description: "Custom versioning for MEGAcmd",
+      matchPackageNames: ["meganz/MEGAcmd"],
+      extractVersion: "^v(?<version>.*)$"
+    },
+    {
+      description: "Custom versioning for MEGA SDK",
+      matchPackageNames: ["meganz/sdk"],
+      extractVersion: "^v(?<version>.*)$"
+    },
+  ],
+}
