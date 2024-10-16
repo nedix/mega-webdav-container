@@ -5,32 +5,34 @@
   customManagers: [
     {
       depNameTemplate: "Alpine",
-      fileMatch: ["^Dockerfile$"],
+      fileMatch: ["^Containerfile$"],
       matchStrings: ["ARG ALPINE_VERSION=(?<currentValue>.*?)\\n"],
       datasourceTemplate: "docker",
       packageNameTemplate: "alpine",
     },
     {
       depNameTemplate: "Crypto++",
-      fileMatch: ["^Dockerfile$"],
+      fileMatch: ["^Containerfile$"],
       matchStrings: ["ARG CRYPTOPP_VERSION=(?<currentValue>.*?)\\n"],
       datasourceTemplate: "github-releases",
       packageNameTemplate: "weidai11/cryptopp",
     },
     {
       depNameTemplate: "MEGAcmd",
-      fileMatch: ["^Dockerfile$"],
+      fileMatch: ["^Containerfile$"],
       matchStrings: ["ARG MEGA_CMD_VERSION=(?<currentValue>.*?)\\n"],
       datasourceTemplate: "github-releases",
       packageNameTemplate: "meganz/MEGAcmd"
     },
     {
       depNameTemplate: "MEGA SDK",
-      fileMatch: ["^Dockerfile$"],
+      fileMatch: ["^Containerfile$"],
       matchStrings: ["ARG MEGA_SDK_VERSION=(?<currentValue>.*?)\\n"],
       datasourceTemplate: "github-releases",
       packageNameTemplate: "meganz/sdk"
     },
+    // TODO: MITMPROXY_VERSION=10.4.2
+    // TODO: PYTHON_VERSION=3.12
   ],
   packageRules: [
     {

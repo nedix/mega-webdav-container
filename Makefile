@@ -1,5 +1,5 @@
 setup:
-	@docker build . -t mega-webdav --progress=plain
+	@docker build --progress=plain -f Containerfile -t mega-webdav .
 
 up: WEBDAV_PORT = 80
 up:
