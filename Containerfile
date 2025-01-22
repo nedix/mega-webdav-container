@@ -97,8 +97,6 @@ RUN curl -fsSL "https://github.com/meganz/MEGAcmd/archive/refs/tags/${MEGA_CMD_V
 
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS mitmdump
 
-COPY /rootfs/opt/mitmdump/ /build/mitmdump/
-
 WORKDIR /build/mitmdump/
 
 ARG MITMDUMP_VERSION
@@ -142,7 +140,7 @@ COPY /rootfs/ /
 
 COPY --link --from=mega /usr/bin/mega-cmd-server /usr/local/bin/
 COPY --link --from=mega /usr/bin/mega-exec /usr/local/bin/
-COPY --link --from=mitmdump /build/mitmdump/ /opt/mitmdump/
+COPY --link --from=mitmdump /build/mitmdump/venv/ /opt/mitmdump/venv/
 
 ARG STARTUP_TIMEOUT
 ENV STARTUP_TIMEOUT="$STARTUP_TIMEOUT"
