@@ -2,10 +2,31 @@ ARG ALPINE_VERSION=3.21
 ARG CRYPTOPP_VERSION=8_9_0
 ARG MEGA_CMD_VERSION=1.7.0
 ARG MEGA_SDK_VERSION=4.32.0
-ARG MITMPROXY_VERSION=10.4.2
+ARG MITMDUMP_VERSION=10.4.2
 ARG PYTHON_VERSION=3.12
+ARG S6_OVERLAY_VERSION=3.2.0.0
+ARG STARTUP_TIMEOUT=120
 
-FROM alpine:${ALPINE_VERSION} AS cryptopp
+FROM alpine:${ALPINE_VERSION} AS base
+
+ARG S6_OVERLAY_VERSION
+
+RUN apk add --virtual .build-deps \
+        xz \
+    && case "$(uname -m)" in \
+        aarch64|arm*) \
+            CPU_ARCHITECTURE="aarch64" \
+        ;; x86_64) \
+            CPU_ARCHITECTURE="x86_64" \
+        ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
+    esac \
+    && wget -qO- "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
+    | tar -xpJf- -C / \
+    && wget -qO- "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${CPU_ARCHITECTURE}.tar.xz" \
+    | tar -xpJf- -C / \
+    && apk del .build-deps
+
+FROM base AS cryptopp
 
 RUN apk add \
         curl \
@@ -21,7 +42,7 @@ RUN curl -fsSL "https://github.com/weidai11/cryptopp/archive/refs/tags/CRYPTOPP_
     ; ar rcs libcryptopp.a *.o \
     && mv libcryptopp.a /usr/local/lib/
 
-FROM alpine:${ALPINE_VERSION} AS mega
+FROM base AS mega
 
 COPY --link --from=cryptopp /usr/local/lib/libcryptopp.a /usr/local/lib/
 
@@ -74,22 +95,30 @@ RUN curl -fsSL "https://github.com/meganz/MEGAcmd/archive/refs/tags/${MEGA_CMD_V
     && make -j$(( $(nproc) + 1 )) \
     && make install
 
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS mitmproxy
+FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS mitmdump
 
-ARG MITMPROXY_VERSION
+COPY /rootfs/opt/mitmdump/ /build/mitmdump/
+
+WORKDIR /build/mitmdump/
+
+ARG MITMDUMP_VERSION
 
 RUN apk add \
         bsd-compat-headers \
         build-base \
-        curl \
         openssl-dev \
-    && curl -fsSL https://sh.rustup.rs \
+    && wget -qO- https://sh.rustup.rs \
     | sh -s -- --profile minimal --default-toolchain stable -y \
-    && source ~/.cargo/env \
+    && . ~/.cargo/env \
+    && ln -s /build/mitmdump/ /opt/ \
+    && python -m venv --copies /opt/mitmdump/venv \
+    && . /opt/mitmdump/venv/bin/activate \
     && pip install --upgrade pip \
     && pip install \
         --ignore-installed \
-        mitmproxy=="$MITMPROXY_VERSION"
+        mitmproxy=="$MITMDUMP_VERSION"
+
+FROM base
 
 RUN apk add \
     	icu-libs \
@@ -106,18 +135,17 @@ RUN apk add \
         libtool \
         libuv \
         nftables \
-        sqlite-libs \
-    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
-    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-    && apk add \
-        s6-overlay \
-        skalibs-dev
-
-COPY --link --from=mega /usr/bin/mega-cmd-server /usr/bin/
-COPY --link --from=mega /usr/bin/mega-exec /usr/bin/
+        python3 \
+        sqlite-libs
 
 COPY /rootfs/ /
+
+COPY --link --from=mega /usr/bin/mega-cmd-server /usr/local/bin/
+COPY --link --from=mega /usr/bin/mega-exec /usr/local/bin/
+COPY --link --from=mitmdump /build/mitmdump/ /opt/mitmdump/
+
+ARG STARTUP_TIMEOUT
+ENV STARTUP_TIMEOUT="$STARTUP_TIMEOUT"
 
 ENTRYPOINT ["/entrypoint.sh"]
 

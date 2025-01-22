@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+: ${EMAIL}
+: ${PASSWORD}
+
+s6-sleep 1
+
+/usr/local/bin/mega-exec login "$EMAIL" "$PASSWORD"

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+setsid /usr/local/bin/mega-cmd-server
