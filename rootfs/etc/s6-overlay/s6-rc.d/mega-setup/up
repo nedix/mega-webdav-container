@@ -4,7 +4,7 @@
 : ${IP}
 : ${PORT}
 
-s6-sleep 1
+sleep 1
 
 ENDPOINT="$(
     HOME=/root \
