@@ -4,7 +4,6 @@
 : ${MEGA_EMAIL}
 : ${MEGA_PASSWORD}
 : ${ROOT_DIRECTORY}
-: ${STARTUP_TIMEOUT}
 
 MEGA_IP=127.0.0.1
 MEGA_PORT=10000
@@ -49,6 +48,5 @@ MEGA_PORT=10000
 # -------------------------------------------------------------------------------
 exec env -i \
     HOME="/root" \
-    S6_CMD_WAIT_FOR_SERVICES_MAXTIME="$(( $STARTUP_TIMEOUT * 1000 ))" \
     S6_STAGE2_HOOK="/usr/sbin/s6-stage2-hook" \
     /init

@@ -5,7 +5,6 @@ ARG MEGA_SDK_VERSION=4.32.0
 ARG MITMDUMP_VERSION=10.4.2
 ARG PYTHON_VERSION=3.12
 ARG S6_OVERLAY_VERSION=3.2.0.0
-ARG STARTUP_TIMEOUT=120
 
 FROM alpine:${ALPINE_VERSION} AS base
 
@@ -141,9 +140,6 @@ COPY /rootfs/ /
 COPY --link --from=mega /usr/bin/mega-cmd-server /usr/local/bin/
 COPY --link --from=mega /usr/bin/mega-exec /usr/local/bin/
 COPY --link --from=mitmdump /build/mitmdump/venv/ /opt/mitmdump/venv/
-
-ARG STARTUP_TIMEOUT
-ENV STARTUP_TIMEOUT="$STARTUP_TIMEOUT"
 
 ENTRYPOINT ["/entrypoint.sh"]
 
