@@ -1,17 +1,16 @@
 #!/usr/bin/env sh
 
-: ${MEGA_IP}
-: ${MEGA_PORT}
-
 . /opt/mitmdump/venv/bin/activate
 
-setsid /opt/mitmdump/index.py \
+exec /opt/mitmdump/index.py \
+    --mode "reverse:http://127.0.0.1:10000" \
     --set "flow_detail=1" \
     --set "termlog_verbosity=error" \
     --set "listen_host=0.0.0.0" \
     --set "listen_port=80" \
-    --mode "reverse:http://${MEGA_IP}:${MEGA_PORT}" \
-    --set "keep_host_header=true" \
-    --set "stream_large_bodies=32m" \
+    --set "keep_host_header=false" \
+    -s "/opt/mitmdump/do-not-store-apple-files.py" \
     -s "/opt/mitmdump/fix-directory-move.py" \
-    -s "/opt/mitmdump/fix-directory-timestamps.py"
+    -s "/opt/mitmdump/fix-directory-timestamps.py" \
+    -s "/opt/mitmdump/rewrite-paths.py" \
+    -s "/opt/mitmdump/stream-files.py"

@@ -1,6 +1,8 @@
+import asyncio
+
 from mitmproxy import http
 
-def requestheaders(flow: http.HTTPFlow):
+async def requestheaders(flow: http.HTTPFlow):
     if flow.request.method != "MOVE":
         return
 

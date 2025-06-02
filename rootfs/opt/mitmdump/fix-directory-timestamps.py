@@ -1,8 +1,9 @@
+import asyncio
 import re
 
 from mitmproxy import http
 
-def response(flow: http.HTTPFlow):
+async def response(flow: http.HTTPFlow):
     if flow.request.method != "PROPFIND":
         return
 

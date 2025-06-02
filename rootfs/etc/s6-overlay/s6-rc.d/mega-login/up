@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
-: ${EMAIL}
-: ${PASSWORD}
+: ${MEGA_EMAIL}
+: ${MEGA_PASSWORD}
 
 sleep 1
 
-/usr/local/bin/mega-exec login "$EMAIL" "$PASSWORD"
+/usr/local/bin/mega-exec login "$MEGA_EMAIL" "$MEGA_PASSWORD"
