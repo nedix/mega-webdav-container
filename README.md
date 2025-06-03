@@ -1,13 +1,15 @@
 # [mega-webdav-container][project]
 
-Serve the file contents of a MEGA.nz Cloud Drive using a webdav connection.
+The purpose of this container is to connect with a MEGA.nz Cloud Drive using a webdav connection.
 
 
 ## Table of contents
 
+
 - [Usage](#usage)
-  - [1. Start the container](#1-start-the-container)
-  - [2. Browse Cloud Drive contents](#2-browse-cloud-drive-contents)
+  - [1. Prerequisites](#1-prerequisites)
+  - [2. Start the container](#2-start-the-container)
+  - [3. Browse Cloud Drive contents](#3-browse-cloud-drive-contents)
 - [Configuration](#configuration)
   - [Environment](#environment)
   - [Credentials](#credentials)
@@ -16,11 +18,15 @@ Serve the file contents of a MEGA.nz Cloud Drive using a webdav connection.
 
 ## Usage
 
-### 1. Start the container
 
-1. You must fill the `MEGA_EMAIL` environment variable with the email of your MEGA.nz account.
-1. You must fill the `MEGA_PASSWORD` environment variable with the password of your MEGA.nz account.
-1. You may optionally [generate the webdav credentials](#generate-credentials) or omit them completely.
+### 1. Prerequisites
+
+1. You must use the `MEGA_EMAIL` environment variable with the email of your MEGA.nz account.
+1. You must use the `MEGA_PASSWORD` environment variable with the password of your MEGA.nz account.
+1. You may optionally use [webdav credentials](#credentials) or omit them completely.
+
+
+### 2. Start the container
 
 The following command is a minimal example to get you up and running:
 
@@ -32,7 +38,7 @@ docker run --rm --pull always --name mega-webdav \
     nedix/mega-webdav
 ```
 
-### 2. Browse Cloud Drive contents
+### 3. Browse Cloud Drive contents
 
 Point your file manager to `127.0.0.1:80` and sign in with your webdav credentials.
 
