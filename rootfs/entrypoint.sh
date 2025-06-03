@@ -3,6 +3,8 @@
 : ${MEGA_DIRECTORY}
 : ${MEGA_EMAIL}
 : ${MEGA_PASSWORD}
+: ${WEBDAV_PASSWORD_HASH}
+: ${WEBDAV_USERNAME}
 
 # -------------------------------------------------------------------------------
 #       Bootstrap mega services
@@ -22,6 +24,16 @@
     mkdir -p "/run/mega-setup/environment"
 
     echo "$MEGA_DIRECTORY" > "/run/mega-setup/environment/MEGA_DIRECTORY"
+}
+
+# -------------------------------------------------------------------------------
+#       Bootstrap mitmdump service
+# -------------------------------------------------------------------------------
+{
+    mkdir -p "/run/mitmdump/environment"
+
+    echo "$WEBDAV_PASSWORD_HASH" > "/run/mitmdump/environment/WEBDAV_PASSWORD_HASH"
+    echo "$WEBDAV_USERNAME"      > "/run/mitmdump/environment/WEBDAV_USERNAME"
 }
 
 # -------------------------------------------------------------------------------

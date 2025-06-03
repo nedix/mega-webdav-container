@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 
+: ${WEBDAV_PASSWORD_HASH}
+: ${WEBDAV_USERNAME}
+
+sed -E \
+    -e "s|^(password_hash = )|\1\"${WEBDAV_PASSWORD_HASH}\"|" \
+    -e "s|^(username = )|\1\"${WEBDAV_USERNAME}\"|" \
+    -i "/opt/mitmdump/check-authentication.py"
+
 . /opt/mitmdump/venv/bin/activate
 
 exec /opt/mitmdump/index.py \
@@ -9,6 +17,7 @@ exec /opt/mitmdump/index.py \
     --set "listen_host=0.0.0.0" \
     --set "listen_port=80" \
     --set "keep_host_header=false" \
+    -s "/opt/mitmdump/check-authentication.py" \
     -s "/opt/mitmdump/do-not-store-apple-files.py" \
     -s "/opt/mitmdump/fix-directory-move.py" \
     -s "/opt/mitmdump/fix-directory-timestamps.py" \
