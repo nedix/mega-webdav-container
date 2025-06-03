@@ -3,6 +3,8 @@
 Serve the file contents of a MEGA.nz Cloud Drive using a webdav connection.
 
 
+## Table of contents
+
 - [Usage](#usage)
   - [1. Start the container](#1-start-the-container)
   - [2. Browse Cloud Drive contents](#2-browse-cloud-drive-contents)
