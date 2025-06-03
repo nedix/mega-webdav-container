@@ -5,28 +5,19 @@ The purpose of this container is to interact with a MEGA.nz Cloud Drive using a 
 
 ## Table of contents
 
-
 - [Usage](#usage)
-  - [1. Prerequisites](#1-prerequisites)
-  - [2. Start the container](#2-start-the-container)
-  - [3. Browse Cloud Drive contents](#3-browse-cloud-drive-contents)
+  - [1. Start the container](#1-start-the-container)
+  - [2. Browse Cloud Drive contents](#2-browse-cloud-drive-contents)
 - [Configuration](#configuration)
   - [Environment](#environment)
-  - [Credentials](#credentials)
+  - [Security](#security)
 - [Development](#development)
 
 
 ## Usage
 
 
-### 1. Prerequisites
-
-1. You must use the `MEGA_EMAIL` environment variable with the email of your MEGA.nz account.
-1. You must use the `MEGA_PASSWORD` environment variable with the password of your MEGA.nz account.
-1. You may optionally use [webdav credentials](#credentials) or omit them completely.
-
-
-### 2. Start the container
+### 1. Start the container
 
 The following command is a minimal example to get you up and running:
 
@@ -38,37 +29,42 @@ docker run --rm --pull always --name mega-webdav \
     nedix/mega-webdav
 ```
 
-### 3. Browse Cloud Drive contents
 
-Point your file manager to `127.0.0.1:80` and sign in with your webdav credentials.
+### 2. Browse Cloud Drive contents
+
+Navigate your file manager to [127.0.0.1:80](http://127.0.0.1:80) and sign in with your webdav credentials.
 
 
 ## Configuration
+
 
 ### Environment
 
 You may configure the container by making use of the following environment variables.
 Add them to the `docker run` command with the `-e` flag.
+Optionally 
 
-| Variable                             | Required                  | Description                                                |
-|--------------------------------------|---------------------------|------------------------------------------------------------|
-| MEGA_EMAIL                           | Yes                       | Email associated with a MEGA.nz Cloud Drive account        |
-| MEGA_PASSWORD                        | Yes                       | Password associated with a MEGA.nz Cloud Drive account     |
-| [WEBDAV_USERNAME](#credentials)      | With WEBDAV_PASSWORD_HASH | Username to protect the webdav connection                  |
-| [WEBDAV_PASSWORD_HASH](#credentials) | With WEBDAV_USERNAME      | sha512 hash of a password to protect the webdav connection |
+| Variable                          | Required                  | Description                                                |
+|-----------------------------------|---------------------------|------------------------------------------------------------|
+| MEGA_EMAIL                        | Yes                       | Email associated with a MEGA.nz Cloud Drive account        |
+| MEGA_PASSWORD                     | Yes                       | Password associated with a MEGA.nz Cloud Drive account     |
+| [WEBDAV_USERNAME](#security)      | With WEBDAV_PASSWORD_HASH | Username to protect the webdav connection                  |
+| [WEBDAV_PASSWORD_HASH](#security) | With WEBDAV_USERNAME      | sha512 hash of a password to protect the webdav connection |
 
 
-### Credentials
+
+### Security
+
 
 ```shell
-WEBDAV_USERNAME="user"
+WEBDAV_NAME="user"
 WEBDAV_PASSWORD_HASH="$(echo 'secret' | mkpasswd -P0 -msha512)"
 ```
 
 
 ## Development
 
-Please refer to the [Makefile documentation](/docs/make.md) for instructions to run the project from a cloned repository.
+Please refer to the [Makefile documentation](/docs/make.md) for instructions to run the project from this cloned repository.
 
 
 [project]: https://hub.docker.com/r/nedix/mega-webdav
