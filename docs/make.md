@@ -1,22 +1,20 @@
-# Make
+# Makefile commands
 
-## Available commands
-
-### Setup
+## Setup
 
 Build the container.
 
 Command: `make setup`
 
 
-### Destroy
+## Destroy
 
 Stop the container and remove volumes.
 
 Command: `make destroy`
 
 
-### Up
+## Up
 
 Start the container.
 
@@ -24,26 +22,26 @@ Command: `make up`
 
 Options:
 
-| Option key | Default value |
-|------------|---------------|
-| HTTP_PORT  | 80            |
+| Key       | Type    | Default |
+|-----------|---------|---------|
+| HTTP_PORT | integer | 80      |
 
 
-### Down
+## Down
 
 Stop the container.
 
 Command: `make down`
 
 
-### Shell
+## Shell
 
 Attach an interactive shell to the container.
 
 Command: `make shell`
 
 
-### Test
+## Test
 
 Run all tests.
 
