@@ -48,7 +48,7 @@ Optionally
 |-----------------------------------|---------------------------|------------------------------------------------------------|
 | MEGA_EMAIL                        | Yes                       | Email associated with a MEGA.nz Cloud Drive account        |
 | MEGA_PASSWORD                     | Yes                       | Password associated with a MEGA.nz Cloud Drive account     |
-| MEGA_DIRECTORY                    | No                        | Directory as the root directory                            |
+| MEGA_DIRECTORY                    | No                        | Use a sub-directory from a MEGA.nz Cloud Drive             |
 | [WEBDAV_USERNAME](#security)      | With WEBDAV_PASSWORD_HASH | Username to protect the webdav connection                  |
 | [WEBDAV_PASSWORD_HASH](#security) | With WEBDAV_USERNAME      | sha512 hash of a password to protect the webdav connection |
 
@@ -65,7 +65,7 @@ WEBDAV_PASSWORD_HASH="$(echo 'secret' | mkpasswd -P0 -msha512)"
 
 ## Development
 
-Please refer to the [Makefile documentation](/docs/make.md) for instructions to run the project from this cloned repository.
+Please refer to the [Makefile documentation](/docs/make.md) for instructions to run the project from a clone of this repository.
 
 
 [project]: https://hub.docker.com/r/nedix/mega-webdav
