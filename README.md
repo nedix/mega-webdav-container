@@ -1,6 +1,6 @@
 # [mega-webdav-container][project]
 
-The purpose of this container is to connect with a MEGA.nz Cloud Drive using a webdav connection.
+The purpose of this container is to interact with a MEGA.nz Cloud Drive using a webdav connection.
 
 
 ## Table of contents
