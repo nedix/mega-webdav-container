@@ -7,7 +7,7 @@ The purpose of this container is to interact with a MEGA.nz Cloud Drive over a w
 
 - [Usage](#usage)
   - [1. Start the container](#1-start-the-container)
-  - [2. Browse Cloud Drive contents](#2-browse-cloud-drive-contents)
+  - [2. Browse files](#2-browse-files)
 - [Configuration](#configuration)
   - [Environment](#environment)
   - [Security](#security)
@@ -30,9 +30,9 @@ docker run --rm --pull always --name mega-webdav \
 ```
 
 
-### 2. Browse Cloud Drive contents
+### 2. Browse files
 
-Navigate your file manager to [127.0.0.1:80](http://127.0.0.1:80) and sign in with your webdav credentials.
+With your file manager navigate to [127.0.0.1:80](http://127.0.0.1:80) and sign in with your webdav credentials.
 
 
 ## Configuration
@@ -40,9 +40,8 @@ Navigate your file manager to [127.0.0.1:80](http://127.0.0.1:80) and sign in wi
 
 ### Environment
 
-You may configure the container by making use of the following environment variables.
+You can configure the container by making use of the following environment variables.
 Add them to the `docker run` command with the `-e` flag.
-Optionally 
 
 | Variable                          | Required                  | Description                                                |
 |-----------------------------------|---------------------------|------------------------------------------------------------|
