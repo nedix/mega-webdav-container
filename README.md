@@ -35,8 +35,8 @@ Add them to the `.env` file and use `--env-file=.env` or use the `-e` flag with 
 ### Security
 
 ```shell
-WEBDAV_USERNAME="user"
-WEBDAV_PASSWORD_HASH="$(echo 'secret' | mkpasswd -P0 -msha512)"
+    -e WEBDAV_USERNAME="user" \
+    -e WEBDAV_PASSWORD_HASH="$(echo 'secret' | mkpasswd -P0 -msha512)" \
 ```
 
 
@@ -45,7 +45,7 @@ WEBDAV_PASSWORD_HASH="$(echo 'secret' | mkpasswd -P0 -msha512)"
 
 ### 1. Start the container
 
-The following command is a minimal example to get you up and running:
+The following command is a minimal example to get the container up and running:
 
 ```shell
 docker run --rm --pull always --name mega-webdav \
