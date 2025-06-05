@@ -28,7 +28,10 @@ async def requestheaders(flow: http.HTTPFlow):
 
         request_password_hash = crypt.crypt(request_password, password_hash)
 
-        if request_username != username or request_password_hash != password_hash:
+        if (
+            request_username != username
+            or request_password_hash != password_hash
+        ):
             flow.response = http.Response.make(
                 403,
                 "Forbidden",
@@ -42,3 +45,4 @@ async def requestheaders(flow: http.HTTPFlow):
             f"Bad Request: {str(e)}".encode(),
             {"Content-Type": "text/plain"}
         )
+        return
