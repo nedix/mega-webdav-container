@@ -35,7 +35,7 @@ Add them to the `.env` file and use `--env-file=.env` or use the `-e` flag with 
 ### Security
 
 ```shell
-WEBDAV_NAME="user"
+WEBDAV_USERNAME="user"
 WEBDAV_PASSWORD_HASH="$(echo 'secret' | mkpasswd -P0 -msha512)"
 ```
 
