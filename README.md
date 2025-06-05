@@ -65,5 +65,7 @@ With your file manager navigate to [127.0.0.1:80](http://127.0.0.1:80) and optio
 
 Please refer to the [Makefile documentation](/docs/make.md) for instructions to build and run the container if you have cloned this repository.
 
+Please refer to the [nedix/actions repository](https://github.com/nedix/actions) for instructions to configure your secrets if you have forked this repository.
+
 
 [project]: https://hub.docker.com/r/nedix/mega-webdav
