@@ -20,7 +20,7 @@ The purpose of this container is to interact with MEGA.nz Cloud Drives using the
 ### Environment
 
 You can configure the container by making use of the following environment variables.
-Add them to the `.env` file or to the `docker run` command with the `-e` flag.
+Add them to the `.env` file and use `--env-file=.env` or use the `-e` flag with the `docker run` command.
 
 | Variable                          | Required                  | Description                                                |
 |-----------------------------------|---------------------------|------------------------------------------------------------|
