@@ -19,7 +19,7 @@ async def requestheaders(flow: http.HTTPFlow):
         return
 
     try:
-        authorization_base64 = flow.request.headers["authorization"].removeprefix("Basic ")
+        authorization_base64 = flow.request.headers.get("Authorization").removeprefix("Basic ")
         authorization_base64_bytes = authorization_base64.encode("utf-8")
         authorization_base64_padded = authorization_base64_bytes + b'=' * (- len(authorization_base64_bytes) % 4)
         authorization_base64_decoded = base64.b64decode(authorization_base64_padded).decode("utf-8")

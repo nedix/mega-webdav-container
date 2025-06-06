@@ -8,8 +8,7 @@ async def requestheaders(flow: http.HTTPFlow):
 
     if (
         flow.request.method == "PUT"
-        and filename.startswith("._")
-        or filename == ".DS_Store"
+        and (filename == ".DS_Store" or filename.startswith("._"))
     ):
         flow.response = http.Response.make(
             202,
