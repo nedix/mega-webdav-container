@@ -1,7 +1,6 @@
 ARG ALPINE_VERSION=3.22
 ARG CRYPTOPP_VERSION=8_9_0
 ARG MEGA_CMD_VERSION=1.7.0
-ARG MEGA_SDK_VERSION=9.5.0
 ARG MITMDUMP_VERSION=10.4.2
 ARG PYTHON_VERSION=3.12
 ARG S6_OVERLAY_VERSION=3.2.0.0
@@ -54,6 +53,7 @@ RUN apk add \
         curl-dev \
         freeimage-dev \
         g++ \
+        git \
         icu-dev \
         libsodium-dev \
         libtool \
@@ -69,17 +69,16 @@ RUN apk add \
 WORKDIR /build/mega/
 
 ARG MEGA_CMD_VERSION
-ARG MEGA_SDK_VERSION
 
-RUN curl -fsSL "https://github.com/meganz/MEGAcmd/archive/refs/tags/${MEGA_CMD_VERSION}_Linux/MEGAcmd-${MEGA_CMD_VERSION}.tar.gz" \
-    | tar -xz --strip-components=1 \
-    && curl -fsSL "https://github.com/meganz/sdk/archive/refs/tags/v${MEGA_SDK_VERSION}/sdk-v${MEGA_SDK_VERSION}.tar.gz" \
-    | tar -xzC ./sdk --strip-components=1 \
+RUN git clone --depth 1 --recursive https://github.com/meganz/MEGAcmd.git . \
+    && git fetch origin tag "${MEGA_CMD_VERSION}_Linux" \
+    && git checkout "tags/${MEGA_CMD_VERSION}_Linux" \
+    && git submodule update --depth 1 --recursive \
     && sed -i 's|/bin/bash|/bin/sh|' ./src/client/mega-* \
-    && sed -i \
+    && sed -E \
         -e 's|MAX_BUFFER_SIZE = .*;|MAX_BUFFER_SIZE = 33554432;|' \
         -e 's|MAX_OUTPUT_SIZE = .*;|MAX_OUTPUT_SIZE = 16384;|' \
-        ./sdk/include/megaapi_impl.h \
+        -i ./sdk/include/megaapi_impl.h \
     && ./autogen.sh \
     && ./configure \
         CXXFLAGS="-O3 -flto=auto -fpermissive" \

@@ -24,13 +24,6 @@
       datasourceTemplate: "github-releases",
       packageNameTemplate: "meganz/MEGAcmd"
     },
-    {
-      depNameTemplate: "MEGA SDK",
-      fileMatch: ["^Containerfile$"],
-      matchStrings: ["ARG MEGA_SDK_VERSION=(?<currentValue>.*?)\\n"],
-      datasourceTemplate: "github-releases",
-      packageNameTemplate: "meganz/sdk"
-    },
     // TODO: MITMPROXY_VERSION=10.4.2
     // TODO: PYTHON_VERSION=3.12
   ],
@@ -44,11 +37,6 @@
     {
       description: "Custom versioning for MEGAcmd",
       matchPackageNames: ["meganz/MEGAcmd"],
-      extractVersion: "^v(?<version>.*)$"
-    },
-    {
-      description: "Custom versioning for MEGA SDK",
-      matchPackageNames: ["meganz/sdk"],
       extractVersion: "^v(?<version>.*)$"
     },
   ],
