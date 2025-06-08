@@ -37,7 +37,7 @@
     {
       description: "Custom versioning for MEGAcmd",
       matchPackageNames: ["meganz/MEGAcmd"],
-      extractVersion: "^v(?<version>.*)_Linux$"
+      extractVersion: "^(?<version>.*)_Linux$"
     },
   ],
 }
