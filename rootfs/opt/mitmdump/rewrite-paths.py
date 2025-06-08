@@ -11,8 +11,8 @@ async def requestheaders(flow: http.HTTPFlow):
 
     if flow.request.method == "MOVE":
         flow.request.headers["Destination"] = re.sub(
-            fr'http://(.*?):(.*?)/(.*?)'.encode(),
-            fr'http://127.0.0.1:10000{mega_base_path}/\3'.encode(),
+            rb'http://(.*?):(.*?)/(.*?)',
+            rb'http://127.0.0.1:10000{mega_base_path}/\3',
             str.encode(flow.request.headers.get("Destination"))
         )
         return
@@ -20,19 +20,20 @@ async def requestheaders(flow: http.HTTPFlow):
 async def response(flow: http.HTTPFlow):
     if (
         flow.request.method == "GET"
+        and flow.response.content
         and str(flow.response.headers.get("Content-Type")).startswith("text/html")
     ):
         flow.response.content = re.sub(
-            fr'<a href="Cloud Drive/(.*?)">'.encode(),
-            fr'<a href="/\1">'.encode(),
+            rb'<a href="Cloud Drive/(.*?)">',
+            rb'<a href="/\1">',
             flow.response.content
         )
         return
 
     if flow.request.method == "PROPFIND":
         flow.response.content = re.sub(
-            fr'<d:href>http://(.*?):(.*?){mega_base_path}/(.*?)</d:href>'.encode(),
-            fr'<d:href>http://127.0.0.1:10000/\3</d:href>'.encode(),
+            rf'<d:href>http://(.*?):(.*?){mega_base_path}/(.*?)</d:href>'.encode(),
+            rb'<d:href>http://127.0.0.1:10000/\3</d:href>',
             flow.response.content
         )
         return

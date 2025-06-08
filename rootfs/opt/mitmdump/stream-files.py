@@ -8,3 +8,4 @@ async def responseheaders(flow: http.HTTPFlow):
         and not str(flow.response.headers.get("Content-Type")).startswith("text/html")
     ):
         flow.response.stream = True
+        return
