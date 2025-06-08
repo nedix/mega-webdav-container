@@ -18,8 +18,8 @@ exec /opt/mitmdump/index.py \
     --set "listen_port=80" \
     --set "keep_host_header=false" \
     -s "/opt/mitmdump/check-authentication.py" \
-    -s "/opt/mitmdump/do-not-store-apple-files.py" \
     -s "/opt/mitmdump/fix-directory-move.py" \
     -s "/opt/mitmdump/fix-directory-timestamps.py" \
     -s "/opt/mitmdump/rewrite-paths.py" \
+    -s "/opt/mitmdump/skip-apple-files.py" \
     -s "/opt/mitmdump/stream-files.py"
