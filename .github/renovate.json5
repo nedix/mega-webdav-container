@@ -21,7 +21,7 @@
       depNameTemplate: "MEGAcmd",
       fileMatch: ["^Containerfile$"],
       matchStrings: ["ARG MEGA_CMD_VERSION=(?<currentValue>.*?)\\n"],
-      datasourceTemplate: "github-releases",
+      datasourceTemplate: "github-tags",
       packageNameTemplate: "meganz/MEGAcmd"
     },
     // TODO: MITMPROXY_VERSION=10.4.2
@@ -37,7 +37,7 @@
     {
       description: "Custom versioning for MEGAcmd",
       matchPackageNames: ["meganz/MEGAcmd"],
-      extractVersion: "^v(?<version>.*)$"
+      extractVersion: "^v(?<version>.*)_Linux$"
     },
   ],
 }
