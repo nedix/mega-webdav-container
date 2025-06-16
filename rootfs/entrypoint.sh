@@ -41,5 +41,5 @@
 # -------------------------------------------------------------------------------
 exec env -i \
     HOME="/root" \
-    S6_STAGE2_HOOK="/usr/sbin/s6-stage2-hook" \
+    S6_STAGE2_HOOK="/usr/bin/s6-stage2-hook" \
     /init
