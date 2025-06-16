@@ -38,6 +38,13 @@
       datasourceTemplate: "docker",
       packageNameTemplate: "python",
     },
+    {
+      depNameTemplate: "s6-overlay",
+      fileMatch: ["^Containerfile$"],
+      matchStrings: ["ARG S6_OVERLAY_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "github-tags",
+      packageNameTemplate: "just-containers/s6-overlay",
+    },
   ],
   packageRules: [
     {
@@ -50,6 +57,12 @@
       description: "Custom versioning for MEGAcmd",
       matchPackageNames: ["meganz/MEGAcmd"],
       extractVersion: "^(?<version>.*)_Linux$"
+    },
+    {
+      description: "Custom versioning for s6-overlay",
+      matchPackageNames: ["just-containers/s6-overlay"],
+      extractVersion: "^v(?<version>.*)$",
+      versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
     },
   ],
 }
