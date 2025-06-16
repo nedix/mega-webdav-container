@@ -24,8 +24,20 @@
       datasourceTemplate: "github-tags",
       packageNameTemplate: "meganz/MEGAcmd"
     },
-    // TODO: MITMPROXY_VERSION=10.4.2
-    // TODO: PYTHON_VERSION=3.12
+    {
+      depNameTemplate: "mitmproxy",
+      fileMatch: ["^Containerfile$"],
+      matchStrings: ["ARG MITMPROXY_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "github-tags",
+      packageNameTemplate: "mitmproxy/mitmproxy"
+    },
+    {
+      depNameTemplate: "Python",
+      fileMatch: ["^Containerfile$"],
+      matchStrings: ["ARG PYTHON_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "docker",
+      packageNameTemplate: "python",
+    },
   ],
   packageRules: [
     {

@@ -1,7 +1,7 @@
 ARG ALPINE_VERSION=3.22
 ARG CRYPTOPP_VERSION=8_9_0
 ARG MEGA_CMD_VERSION=1.7.0
-ARG MITMDUMP_VERSION=10.4.2
+ARG MITMPROXY_VERSION=10.4.2
 ARG PYTHON_VERSION=3.12
 ARG S6_OVERLAY_VERSION=3.2.0.0
 
@@ -97,7 +97,7 @@ FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS mitmdump
 
 WORKDIR /build/mitmdump/
 
-ARG MITMDUMP_VERSION
+ARG MITMPROXY_VERSION
 
 RUN apk add \
         bsd-compat-headers \
@@ -112,7 +112,7 @@ RUN apk add \
     && pip install --upgrade pip \
     && pip install \
         --ignore-installed \
-        mitmproxy=="$MITMDUMP_VERSION"
+        mitmproxy=="$MITMPROXY_VERSION"
 
 FROM base
 
