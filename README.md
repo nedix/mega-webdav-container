@@ -22,10 +22,13 @@ The purpose of this container is to interact with MEGA.nz Cloud Drives using the
 The following command is a minimal example to get the container up and running:
 
 ```shell
-docker run --rm --pull always --name mega-webdav \
-    -p 127.0.0.1:80:80 \
+docker run \
+    --name mega-webdav \
+    --pull always \
+    --rm \
     -e MEGA_EMAIL="foo" \
     -e MEGA_PASSWORD="bar" \
+    -p 127.0.0.1:80:80 \
     nedix/mega-webdav
 ```
 

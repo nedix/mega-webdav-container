@@ -7,10 +7,13 @@ destroy:
 
 up: HTTP_PORT = "80"
 up:
-	@docker run --rm -d --name mega-webdav \
-        --env-file .env \
-        -p 127.0.0.1:$(HTTP_PORT):80 \
-        mega-webdav
+	@docker run \
+		--env-file .env \
+		--name mega-webdav \
+		--rm \
+		-p 127.0.0.1:$(HTTP_PORT):80 \
+		-d \
+		mega-webdav
 	@docker logs -f mega-webdav
 
 down:
