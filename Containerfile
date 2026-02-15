@@ -115,9 +115,8 @@ RUN case "$(uname -m)" in \
         build-base \
         openssl-dev \
     && wget -qO- https://sh.rustup.rs \
-    | sh -s -- --profile minimal --default-toolchain "$RUST_TOOLCHAIN" -y \
+    | sh -s -- --profile minimal --default-toolchain "$RUST_TOOLCHAIN" --component rust-src -y \
     && . ~/.cargo/env \
-    && rustup component add rust-src --toolchain "$RUST_TOOLCHAIN" \
     && cargo install \
         --locked \
         bpf-linker \
