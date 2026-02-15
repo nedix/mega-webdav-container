@@ -1,7 +1,7 @@
 ARG ALPINE_VERSION=3.23
 ARG CRYPTOPP_VERSION=8_9_0
 ARG MEGA_CMD_VERSION=1.7.0
-ARG MITMPROXY_VERSION=10.4.2
+ARG MITMPROXY_VERSION=12.2.1
 ARG PYTHON_VERSION=3.13
 ARG S6_OVERLAY_VERSION=3.2.2.0
 
@@ -101,13 +101,28 @@ WORKDIR /build/mitmdump/
 
 ARG MITMPROXY_VERSION
 
-RUN apk add \
+RUN case "$(uname -m)" in \
+        aarch64) \
+            RUST_TOOLCHAIN="nightly-aarch64-unknown-linux-musl" \
+        ;; arm*) \
+            RUST_TOOLCHAIN="nightly-arm-unknown-linux-musleabi" \
+        ;; x86_64) \
+            RUST_TOOLCHAIN="nightly-x86_64-unknown-linux-musl" \
+        ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
+    esac \
+    && apk add \
         bsd-compat-headers \
         build-base \
+        lld \
+        llvm \
+        musl-dev \
         openssl-dev \
     && wget -qO- https://sh.rustup.rs \
-    | sh -s -- --profile minimal --default-toolchain stable -y \
+    | sh -s -- --profile minimal --default-toolchain "$RUST_TOOLCHAIN" --component rust-src -y \
     && . ~/.cargo/env \
+    && cargo install \
+        --locked \
+        bpf-linker \
     && ln -s /build/mitmdump/ /opt/ \
     && python -m venv --copies /opt/mitmdump/venv \
     && . /opt/mitmdump/venv/bin/activate \
