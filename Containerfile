@@ -101,13 +101,23 @@ WORKDIR /build/mitmdump/
 
 ARG MITMPROXY_VERSION
 
-RUN apk add \
+RUN case "$(uname -m)" in \
+        aarch64) \
+            RUST_TARGET="aarch64-unknown-linux-musl" \
+        ;; arm*) \
+            RUST_TARGET="arm-unknown-linux-musleabi" \
+        ;; x86_64) \
+            RUST_TARGET="x86_64-unknown-linux-none" \
+        ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
+    esac \
+    && apk add \
         bsd-compat-headers \
         build-base \
         openssl-dev \
     && wget -qO- https://sh.rustup.rs \
     | sh -s -- --profile minimal --default-toolchain stable -y \
     && . ~/.cargo/env \
+    && rustup target add "$RUST_TARGET" \
     && cargo install \
         --locked \
         bpf-linker \
