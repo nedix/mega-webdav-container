@@ -108,6 +108,9 @@ RUN apk add \
     && wget -qO- https://sh.rustup.rs \
     | sh -s -- --profile minimal --default-toolchain stable -y \
     && . ~/.cargo/env \
+    && cargo install \
+        --locked \
+        bpf-linker \
     && ln -s /build/mitmdump/ /opt/ \
     && python -m venv --copies /opt/mitmdump/venv \
     && . /opt/mitmdump/venv/bin/activate \
