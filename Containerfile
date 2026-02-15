@@ -113,7 +113,9 @@ RUN case "$(uname -m)" in \
     && apk add \
         bsd-compat-headers \
         build-base \
+        lld \
         llvm \
+        musl-dev \
         openssl-dev \
     && wget -qO- https://sh.rustup.rs \
     | sh -s -- --profile minimal --default-toolchain "$RUST_TOOLCHAIN" --component rust-src -y \
