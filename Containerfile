@@ -107,7 +107,7 @@ RUN case "$(uname -m)" in \
         ;; arm*) \
             RUST_TOOLCHAIN="nightly-arm-unknown-linux-musleabi" \
         ;; x86_64) \
-            RUST_TOOLCHAIN="nightly-x86_64-unknown-linux-none" \
+            RUST_TOOLCHAIN="nightly-x86_64-unknown-linux-musl" \
         ;; *) echo "Unsupported architecture: $(uname -m)"; exit 1; ;; \
     esac \
     && apk add \
