@@ -117,6 +117,7 @@ RUN case "$(uname -m)" in \
     && wget -qO- https://sh.rustup.rs \
     | sh -s -- --profile minimal --default-toolchain "$RUST_TOOLCHAIN" -y \
     && . ~/.cargo/env \
+    && rustup component add rust-src --toolchain "$RUST_TOOLCHAIN" \
     && cargo install \
         --locked \
         bpf-linker \
