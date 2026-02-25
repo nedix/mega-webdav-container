@@ -47,9 +47,8 @@ FROM base AS mega
 COPY --link --from=cryptopp /usr/local/lib/libcryptopp.a /usr/local/lib/
 
 RUN apk add \
-        autoconf \
-        automake \
         c-ares-dev \
+        cmake \
         crypto++-dev \
         curl \
         curl-dev \
@@ -81,19 +80,14 @@ RUN git clone --depth 1 --recursive https://github.com/meganz/MEGAcmd.git . \
         -e 's|MAX_BUFFER_SIZE = .*;|MAX_BUFFER_SIZE = 33554432;|' \
         -e 's|MAX_OUTPUT_SIZE = .*;|MAX_OUTPUT_SIZE = 16384;|' \
         -i ./sdk/include/megaapi_impl.h \
-    && ./autogen.sh \
-    && ./configure \
-        CXXFLAGS="-O3 -flto=auto -fpermissive" \
-        --build=$CBUILD \
-        --host=$CHOST \
-        --localstatedir=/var \
-        --mandir=/usr/share/man \
-        --prefix=/usr \
-        --sysconfdir=/etc \
-        --disable-examples \
-        --disable-shared \
-    && make -j$(( $(nproc) + 1 )) \
-    && make install
+    && cmake \
+        -B build/build-cmake-Release \
+        -DCMAKE_BUILD_TYPE="Release" \
+        -DCMAKE_INSTALL_PREFIX="${PWD}/output" \
+    && cmake \
+        --build build/build-cmake-Release \
+        -j$(( $(nproc) + 1 )) \
+    && cmake --install build/build-cmake-Release
 
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS mitmdump
 
