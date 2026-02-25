@@ -20,6 +20,6 @@ exec /opt/mitmdump/index.py \
     -s "/opt/mitmdump/check-authentication.py" \
     -s "/opt/mitmdump/fix-directory-move.py" \
     -s "/opt/mitmdump/fix-directory-timestamps.py" \
+    -s "/opt/mitmdump/prevent-apple-files.py" \
     -s "/opt/mitmdump/rewrite-paths.py" \
-    -s "/opt/mitmdump/skip-apple-files.py" \
     -s "/opt/mitmdump/stream-files.py"
