@@ -2,7 +2,7 @@ ARG ALPINE_VERSION=3.23
 ARG CRYPTOPP_VERSION=8_9_0
 ARG MEGA_CMD_VERSION=1.7.0
 ARG MITMPROXY_VERSION=10.4.2
-ARG PYTHON_VERSION=3.13
+ARG PYTHON_VERSION=3.14
 ARG S6_OVERLAY_VERSION=3.2.2.0
 
 FROM alpine:${ALPINE_VERSION} AS base
@@ -104,6 +104,7 @@ ARG MITMPROXY_VERSION
 RUN apk add \
         bsd-compat-headers \
         build-base \
+        libffi-dev \
         openssl-dev \
     && wget -qO- https://sh.rustup.rs \
     | sh -s -- --profile minimal --default-toolchain stable -y \
