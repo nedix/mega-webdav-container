@@ -104,6 +104,7 @@ ARG MITMPROXY_VERSION
 RUN apk add \
         bsd-compat-headers \
         build-base \
+        libffi-dev \
         openssl-dev \
     && wget -qO- https://sh.rustup.rs \
     | sh -s -- --profile minimal --default-toolchain stable -y \
