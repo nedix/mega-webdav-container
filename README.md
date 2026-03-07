@@ -25,7 +25,7 @@ The following command is a minimal example to get the container up and running:
 docker run \
     --name mega-webdav \
     --pull always \
-    --rm \
+    --restart unless-stopped \
     -e MEGA_EMAIL="foo" \
     -e MEGA_PASSWORD="bar" \
     -p 127.0.0.1:80:80 \
