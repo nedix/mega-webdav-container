@@ -26,23 +26,28 @@ RUN apk add --virtual .build-deps \
     | tar -xpJf- -C / \
     && apk del .build-deps
 
-FROM base AS cryptopp
+FROM base AS build-base
+
+ARG PYTHON_VERSION
 
 RUN apk add \
-        curl \
-        g++
+        "py${PYTHON_VERSION%.*}-pip" \
+        "python${PYTHON_VERSION%.*}-dev~${PYTHON_VERSION}" \
+        build-base
+
+FROM build-base AS cryptopp
 
 WORKDIR /build/cryptopp/
 
 ARG CRYPTOPP_VERSION
 
-RUN curl -fsSL "https://github.com/weidai11/cryptopp/archive/refs/tags/CRYPTOPP_${CRYPTOPP_VERSION}/cryptopp${CRYPTOPP_VERSION//_/}.tar.gz" \
+RUN wget -qO- "https://github.com/weidai11/cryptopp/archive/refs/tags/CRYPTOPP_${CRYPTOPP_VERSION}/cryptopp${CRYPTOPP_VERSION//_/}.tar.gz" \
     | tar -xz --strip-components=1 \
     && g++ -DNDEBUG -g3 -O3 -march=native -pipe -c cryptlib.cpp \
     ; ar rcs libcryptopp.a *.o \
     && mv libcryptopp.a /usr/local/lib/
 
-FROM base AS mega
+FROM build-base AS mega
 
 COPY --link --from=cryptopp /usr/local/lib/libcryptopp.a /usr/local/lib/
 
@@ -54,14 +59,12 @@ RUN apk add \
         curl \
         curl-dev \
         freeimage-dev \
-        g++ \
         git \
         icu-dev \
         libsodium-dev \
         libtool \
         libuv-dev \
         linux-headers \
-        make \
         openssl-dev \
         readline-dev \
         sqlite-dev \
@@ -95,7 +98,7 @@ RUN git clone --depth 1 --recursive https://github.com/meganz/MEGAcmd.git . \
     && make -j$(( $(nproc) + 1 )) \
     && make install
 
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS mitmdump
+FROM build-base AS mitmdump
 
 WORKDIR /build/mitmdump/
 
@@ -103,28 +106,38 @@ ARG MITMPROXY_VERSION
 
 RUN apk add \
         bsd-compat-headers \
-        build-base \
         libffi-dev \
         openssl-dev \
     && wget -qO- https://sh.rustup.rs \
-    | sh -s -- --profile minimal --default-toolchain stable -y \
-    && . ~/.cargo/env \
+    | sh -s -- \
+        --component="rust-src" \
+        --default-toolchain="nightly" \
+        --profile="minimal" \
+        -y \
+    && source ~/.cargo/env \
+    && cargo install \
+        cargo-binstall \
+    && cargo binstall \
+        --no-confirm \
+        bpf-linker \
     && ln -s /build/mitmdump/ /opt/ \
     && python -m venv --copies /opt/mitmdump/venv \
     && . /opt/mitmdump/venv/bin/activate \
-    && pip install --upgrade pip \
     && pip install \
         --ignore-installed \
         mitmproxy=="$MITMPROXY_VERSION"
 
 FROM base
 
+ARG PYTHON_VERSION
+
 RUN apk add \
-    	icu-libs \
+        "python${PYTHON_VERSION%.*}~${PYTHON_VERSION}" \
         c-ares \
         crypto++ \
         freeimage \
         fuse3 \
+        icu-libs \
         iproute2 \
         iptables \
         libcurl \
